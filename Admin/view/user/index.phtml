@@ -1,0 +1,62 @@
+<div class="page-header">
+  <div class="btn-group pull-right">
+    <a class="btn btn-success" href="user-add.html"><i class="icon-white icon-plus"></i> Add new user</a>
+    <a class="btn btn-danger" href="#"><i class="icon-white icon-remove"></i> Delete selected users</a>
+    <a class="btn" href="#"><i class="icon-download"></i> Export users</a>
+    <a class="btn" href="#"><i class="icon-upload"></i> Import users</a>
+  </div>
+  <h2>Users management <small>, subtitle user page</small></h2>
+</div>
+<p>Mauris id tortor vel tortor convallis gravida sit amet in sapien. Integer nec augue felis, a faucibus odio. Morbi molestie, ipsum at ultricies congue, sapien risus mollis velit, at vulputate mauris nisi vel purus. Vestibulum tristique, nisi ut laoreet lacinia, risus eros faucibus magna, eu viverra erat nibh id dui. Nunc leo nibh, venenatis a suscipit cursus, mollis id nulla. Nulla sit amet consequat urna. In quis libero quis dolor ornare interdum. Proin fringilla eleifend ultricies. Vestibulum placerat, nunc id rhoncus mollis, massa augue condimentum mi, sed consequat nulla mi at sem. Phasellus accumsan ligula a elit molestie sodales. Cras pharetra augue vel nisl volutpat molestie. Curabitur sagittis sodales dui, interdum egestas tellus adipiscing nec. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam interdum dapibus massa, eu faucibus nibh vehicula ac. Donec gravida, tellus in tincidunt ullamcorper, dolor sem tempor lorem, in fermentum ligula arcu eget leo.</p>
+<form>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th colspan="2"><a href="#" class="btn btn-mini toggle-all">Toggle</a></th>
+        <th>User</th>
+        <th>Registration date</th>
+        <th>Activated?</th>
+        <th>Actions</th>
+      </tr>
+      <tr class="well">
+        <th colspan="2"><label>Filter search</label></th>
+        <th>
+          <div class="input-append">
+            <input type="text" class="input-xlarge" placeholder="User" name="user" />
+            <span class="add-on"><i class="icon-user"></i></span>
+         </div>
+        </th>
+        <th>
+          <div class="input-append date" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+            <input type="text" class="input-small disabled" placeholder="Registration date" name="registration-date" disabled />
+            <span class="add-on"><i class="icon-th"></i></span>
+          </div>
+        </th>
+        <th>
+          <div class="btn-group" data-toggle="buttons-checkbox">
+            <button type="button" class="btn" name="activated" value="1"><i class="icon-ok"></i></button>
+            <button type="button" class="btn" name="activated" value="0"><i class="icon-remove"></i></button>
+          </div>
+        </th>
+        <th><button class="btn btn-primary" type="button">Search</button></th>
+      </tr>
+    </thead>
+    <tbody>
+<?php foreach ($this->entries as $entry): ?>
+	  <tr>
+	    <td><input type="checkbox" /></td>
+	    <td><img src="http://dummyimage.com/40x40/fff/000&text=A" alt="" /></td>
+        <td>
+          <span class="pull-right"><?php echo $entry['email'] ?></span>
+          <strong><?php echo $entry['username'] ?></strong><br/>
+          <small><?php echo $entry['firstname'] . ' ' . $entry['lastname'] ?></small>
+        </td>
+        <td>18 Avr. 2012, 10:11</td>
+        <td><i class="icon-ok"></i></td>
+        <td><a href="<?php echo $this->url('admin/user/edit', array('id' => $entry['user_id'])) ?>"><i class="icon-pencil"></i> Edit user info</a></td>
+	  </tr>
+<?php endforeach; ?>
+    </tbody>
+  </table>
+</form>
+<?php echo $this->paginationControl($this->entries, 'Sliding', 'paginator/paginator.phtml', array('url' => '')); ?>
