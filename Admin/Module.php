@@ -2,25 +2,23 @@
 namespace Admin;
 
 use Zend\Mvc\Router\RouteMatch,
+    Zend\EventManager\Event,
     Zend\Mvc\MvcEvent,
+    Zend\Module\ModuleEvent,
     Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
-    Zend\Module\Consumer\AutoloaderProvider;
+    Zend\Module\Consumer\AutoloaderProvider,
+    Zend\Navigation\Navigation;
 
 class Module implements AutoloaderProvider
 {
-    
     public function init(Manager $moduleManager)
     {
         $events = StaticEventManager::getInstance();
-        
-        $events->attach('bootstrap', 'bootstrap', array($this, 'initializeView'), 100);
-        $events->attach('bootstrap', 'bootstrap', array($this, 'initializeAcl'), 100);
-        
-        $events->attach('Zend\Module\Manager', 'loadModules.post', array($this, 'initializeNavigation'), 0);
-        
-        $events->attach('Zend\Mvc\Application', 'route', array($this, 'checkAdminLogin'), -100);
-        $events->attach('Zend\Mvc\Application', 'route', array($this, 'addRouteMatch'), -200);
+        $events->attach('bootstrap', MvcEvent::EVENT_BOOTSTRAP, array($this, 'initializeAcl'), 100);
+        $events->attach('bootstrap', MvcEvent::EVENT_BOOTSTRAP, array($this, 'initializeView'), 100);
+        $events->attach('Zend\Module\Manager', 'loadModules.post', array($this, 'initializeNavigation'), -100);
+        $events->attach('Zend\Mvc\Application', MvcEvent::EVENT_ROUTE, array($this, 'addRouteMatch'), -200);
         
     }
     
@@ -44,42 +42,27 @@ class Module implements AutoloaderProvider
     }
     
     /**
-     * Vérifie que le user est loggé pour accéder à l'admin.
+     * Initialize les Acl
      * 
      * @param MvcEvent $e
      */
-    public function checkAdminLogin(MvcEvent $e)
+    public function initializeAcl($e)
     {
-        $controllerName = $e->getRouteMatch()->getParam('controller');
-        $actionName = $e->getRouteMatch()->getParam('action');
+        $app = $e->getParam('application');
+        $locator = $app->getLocator();
         
-        $target = $e->getTarget();
-        $locator = $target->getLocator();
-        $controller = $locator->get($controllerName);
+        $config = $e->getParam('config');
         
-        if($controller instanceof Administrator) {
-            
-            $auth = $locator->get('Admin\Authentication\AuthenticationService');
-            if(!$auth->hasIdentity() && $actionName != 'login') {
-            
-                $response = $e->getResponse();
-                $response->setStatusCode(302);
-                
-                $renderer     = $locator->get('Zend\View\Renderer\PhpRenderer');
-                $content = $renderer->render('admin/login.phtml');
-                
-                $e->getResponse()->setContent($content);
-                return $e->getResponse();
-            }
-        }
+        $acl = $locator->get('Admin\Acl\Acl');
+        $acl->initResources($config->acl);
     }
     
     /**
-     * Intialize la Vue.
+     * Initiate view components
      * 
      * @param MvcEvent $e
      */
-    public function initializeView($e)
+    public function initializeView(Event $e)
     {
         $app          = $e->getParam('application');
         $basePath     = $app->getRequest()->getBasePath();
@@ -96,42 +79,27 @@ class Module implements AutoloaderProvider
 
         $favicon = '<link rel="shortcut icon" href="' . $basePath . '/images/favicon.ico">';
         $renderer->plugin('placeHolder')->__invoke('favicon')->set($favicon);
+        
+        // add strategy
+        $adminViewStrategy = $locator->get('Admin\View\AdminRenderingStrategy');
+        $adminViewStrategy->setLocator($locator);
+        $app->events()->attachAggregate($adminViewStrategy);
     }
     
     /**
-     * Initialize la navigartion
+     * Initiate navigation
      * 
      * @param MvcEvent $e
      */
-    public function initializeNavigation( $e)
+    public function initializeNavigation(ModuleEvent $e)
     {
         $config = $e->getConfigListener()->getMergedConfig();
-        $navigation = new \Zend\Navigation\Navigation($config->navigation->toArray());
+        $navigation = new Navigation($config->navigation->toArray());
         \Zend\Registry::set('Zend_Navigation', $navigation);
     }
     
     /**
-     * Initialize les Acl
-     * 
-     * @param MvcEvent $e
-     */
-    public function initializeAcl($e)
-    {
-        $app = $e->getParam('application');
-        $locator = $app->getLocator();
-        
-        $config = $e->getParam('config');
-        
-        $acl = $locator->get('Admin\Acl\Acl');
-        $acl->initResources($config->acl);
-        
-        $events = StaticEventManager::getInstance();
-        $AclManager = $locator->get('Admin\Acl\Manager');
-        $events->attach('Zend\Mvc\Controller\ActionController', 'dispatch', array($AclManager, 'checkAcl'), 100);
-    }
-    
-    /**
-     * //TODO supprimer cette methode car elle st moche.
+     * //TODO delete this, otpmize
      * 
      */
     public function addRouteMatch($e)

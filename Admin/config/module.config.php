@@ -3,7 +3,7 @@ return array(
     'di' => array(
         'instance' => array(
             // Définition de tous les alias.
-			'alias' => array(
+		'alias' => array(
             	'admin_email_validator'  => 'Zend\Validator\Db\NoRecordExists',
 				'admin_username_validator'  => 'Zend\Validator\Db\NoRecordExists',
             ),
@@ -13,7 +13,7 @@ return array(
                     'driver'         => 'Pdo_MySQL',
                     'dsn'            => 'mysql:dbname=blog;hostname=localhost',
                     'username'       => 'root',
-                    'password'       => 'password',
+                    'password'       => 'root',
                     'driver_options' => array(
                         PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''
                     ),
@@ -25,10 +25,14 @@ return array(
                     'admin' => __DIR__ . '/../view',
                 ),
             )),
-            // View for the layout.
-            'Zend\Mvc\View\DefaultRenderingStrategy' => array(
+            'Zend\View\Resolver\TemplateMapResolver' => array(
                 'parameters' => array(
-                    'layoutTemplate' => 'layout/admin',
+                    'map'  => array(
+                        'layout/admin/default' => __DIR__ . '/../view/layout/default.phtml',
+                        'layout/admin/login' => __DIR__ . '/../view/layout/login.phtml',
+                        'admin/login' => __DIR__ . '/../view/admin/login.phtml',
+                        'admin/index' => __DIR__ . '/../view/admin/index.phtml',
+                    ),
                 ),
             ),
             // Configuration for the doctype helper.
@@ -62,7 +66,7 @@ return array(
                 ),
             ),
             // Définition DI pour AuthenticationService.
-			'Admin\Authentication\AuthenticationService' => array(
+            'Admin\Authentication\AuthenticationService' => array(
                 'params' => array(
                     'service'  => array('session', 'admin')
                 ),
@@ -72,7 +76,7 @@ return array(
                 'parameters' => array(
                     'map' => array(
                         'adminmenu' => 'Admin\View\Helper\Navigation\AdminMenu',
-            			'adminbreadcrumbs' => 'Admin\View\Helper\Navigation\AdminBreadcrumbs',
+            		'adminbreadcrumbs' => 'Admin\View\Helper\Navigation\AdminBreadcrumbs',
                     ),
                 ),
             ),
@@ -160,7 +164,8 @@ return array(
                 ),
             ),
             // Défini les routes.
-            'Zend\Mvc\Router\RouteStack' => array('parameters' => array(
+            'Zend\Mvc\Router\RouteStack' => array(
+                'parameters' => array(
        			'routes' => array(
          			'admin' => array(
            				'type' => 'Zend\Mvc\Router\Http\Literal',
@@ -173,22 +178,22 @@ return array(
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                       		'login' => array(
-                        		'type' => 'Zend\Mvc\Router\Http\Literal',
+                            'login' => array(
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
                                 'options' => array(
-                       				'route' => '/login',
-                               		'defaults' => array(
-                    			    	'controller' => 'Admin\Controller\AdminController',
+                                    'route' => '/login',
+                                    'defaults' => array(
+                                        'controller' => 'Admin\Controller\AdminController',
                                         'action' => 'login'
                                     ),
                                 ),
                             ),
                             'logout' => array(
-                        		'type' => 'Zend\Mvc\Router\Http\Literal',
+                                'type' => 'Zend\Mvc\Router\Http\Literal',
                                 'options' => array(
-                       				'route' => '/logout',
-                               		'defaults' => array(
-                    			    	'controller' => 'Admin\Controller\AdminController',
+                                    'route' => '/logout',
+                                    'defaults' => array(
+                                        'controller' => 'Admin\Controller\AdminController',
                                         'action' => 'logout'
                                     ),
                                 ),

@@ -1,105 +1,44 @@
-<?php echo $this->doctype() . PHP_EOL ?>
-<html lang="en">
-	<head>
-    	<meta charset="utf-8" />
-    	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-        <?php echo $this->headTitle() . PHP_EOL ?>
-        <?php echo $this->headMeta() . PHP_EOL ?>
-        <?php echo $this->headScript()  ->appendFile($this->basePath() . '/js/jquery.js')
-                                        ->appendFile($this->basePath() . '/js/jquery.jtweetsanywhere-1.2.1.min.js')
-                                        ->appendFile($this->basePath() . '/js/bootstrap.min.js')
-                                        ->appendFile($this->basePath() . '/js/bootstrap.datepicker.js') . PHP_EOL ?>
-        <?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap.css')
-                                    ->appendStylesheet($this->basePath() . '/css/bootstrap.datepicker.css')
-                                    ->appendStylesheet($this->basePath() . '/css/admin.css') . PHP_EOL ?>
-		
-		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    	<!--[if lt IE 9]>
-      		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    	<![endif]-->
+<form action="<?php echo $this->url('admin/login', array()); ?>" method="post" class="form-horizontal">
+  <fieldset>
+    <legend>Login to Tea Garden <small class="pull-right"><a href="#password-forgotten" data-toggle="modal">Password forgotten?</a></small></legend>
 
-        <?php echo $this->placeholder('favicon') . PHP_EOL ?>
-        <script>
-      		$(document).ready(function(){
-        		// make datepicker displayable
-        		$('.date').datepicker();
+    <?php if($this->form->getErrorMessages()): ?>
+    <div class="alert alert-error">
+        <?php foreach ($this->form->getErrorMessages() as $message): ?>
+            <?php echo $message; ?>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
 
-        		// toggle all plugin checkboxes
-        		$('table .toggle-all').on('click', function (e) {
-          			e.preventDefault();
-          			var inputsComponent = $(this).closest('table').find('input:checkbox');
-          			inputsComponent.attr('checked', !inputsComponent.is(':checked'));
-        		});
-      		});
-    	</script>
-  	</head>
-  	<body>
-    <!-- Main login -->
-    <div class="container">
-      <div class="row">
-        <div class="span6 offset3">
-          <div class="container-login">
-
-            <form action="<?php echo $this->url('admin/login', array()); ?>" method="post" class="form-horizontal">
-              <fieldset>
-                <legend>Login to Tea Garden <small class="pull-right"><a href="#password-forgotten" data-toggle="modal">Password forgotten?</a></small></legend>
-                
-                <?php if($this->form->getErrorMessages()): ?>
-                <div class="alert alert-error">
-                    <?php foreach ($this->form->getErrorMessages() as $message): ?>
-                    	<?php echo $message; ?>
-                    <?php endforeach; ?>
-                </div>
-                <?php endif; ?>
-
-                <div class="control-group <?php echo ($this->form->getErrors('username')) ? 'error' : ''  ?>">
-                  <label class="control-label" for="username">Username</label>
-                  <div class="controls">
-                    <input type="text" class="input-xlarge" name="username" id="username" placeholder="Username or email" />
-                    <p class="help-block">Enter your username or you email address</p>
-                  </div>
-                </div>
-
-                <div class="control-group <?php echo ($this->form->getErrors('password')) ? 'error' : ''  ?>">
-                  <label class="control-label" for="password">Password</label>
-                  <div class="controls">
-                    <input type="password" class="input-xlarge" name="password" id="password" placeholder="Password" />
-                    <p class="help-block">Enter your password in case sensitive</p>
-                  </div>
-                </div>
-
-                <div class="control-group">
-                  <div class="controls">
-                    <label for="remember-me" class="checkbox">
-                      <input type="checkbox" id="remember-me" value="1" checked="checked" />
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-
-                <div class="form-actions">
-                  <button type="submit" class="btn btn-primary">Log me in</button>
-                  <a href="#" class="btn">Go back to the website</a>
-                </div>
-              </fieldset>
-              <?php echo $this->formCsrf();?>
-            </form>
-
-          </div>
-        </div>
+    <div class="control-group <?php echo ($this->form->getErrors('username')) ? 'error' : ''  ?>">
+      <label class="control-label" for="username">Username</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" name="username" id="username" placeholder="Username or email" />
+        <p class="help-block">Enter your username or you email address</p>
       </div>
     </div>
 
-    <!-- Main footer -->
-    <div class="footer navbar-fixed-bottom">
-      <nav class="navbar">
-        <div class="navbar-inner">
-          <div class="container">
-            <h1 class="brand">Tea Garden</h1>
-            <p class="footer-login pull-right">&copy; Tea Garden 2012. Tous droits r&eacute;serv&eacute;s.</p>
-          </div>
-        </div>
-      </nav>
+    <div class="control-group <?php echo ($this->form->getErrors('password')) ? 'error' : ''  ?>">
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" name="password" id="password" placeholder="Password" />
+        <p class="help-block">Enter your password in case sensitive</p>
+      </div>
     </div>
-  </body>
-</html>
+
+    <div class="control-group">
+      <div class="controls">
+        <label for="remember-me" class="checkbox">
+          <input type="checkbox" id="remember-me" value="1" checked="checked" />
+          Remember me
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Log me in</button>
+      <a href="#" class="btn">Go back to the website</a>
+    </div>
+  </fieldset>
+  <?php echo $this->formCsrf();?>
+</form>

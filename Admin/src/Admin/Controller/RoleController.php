@@ -1,8 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Zend\Mvc\Controller\ActionController,
-    Zend\View\Model\ViewModel,
+use Zend\View\Model\ViewModel,
     Admin\Administrator,
     Admin\Form\LoginForm;
 
@@ -13,7 +12,7 @@ use Zend\Mvc\Controller\ActionController,
  * @version 
  * 
  */
-class RoleController extends ActionController implements Administrator
+class RoleController extends AbstractController
 {
     
     /**

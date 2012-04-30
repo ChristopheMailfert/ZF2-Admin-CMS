@@ -1,8 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Zend\Mvc\Controller\ActionController,
-    Zend\View\Model\ViewModel,
+use Zend\View\Model\ViewModel,
     Admin\Administrator,
     Admin\Model\UserTable;
 
@@ -13,7 +12,7 @@ use Zend\Mvc\Controller\ActionController,
  * @version 
  * 
  */
-class UserController extends ActionController implements Administrator
+class UserController extends AbstractController
 {
     /**
      * @var Admin\Form\ProfileForm

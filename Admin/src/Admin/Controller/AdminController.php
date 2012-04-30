@@ -1,8 +1,7 @@
 <?php
 namespace Admin\Controller;
 
-use Zend\Mvc\Controller\ActionController,
-    Zend\View\Model\ViewModel,
+use Zend\View\Model\ViewModel,
     Admin\Administrator,
     Admin\Form\LoginForm;
 
@@ -12,7 +11,7 @@ use Zend\Mvc\Controller\ActionController,
  * @author "Christophe MAILFERT <cmailfert@takeatea.com>"
  * 
  */
-class AdminController extends ActionController implements Administrator
+class AdminController extends AbstractController
 {
     
     /**
@@ -58,10 +57,7 @@ class AdminController extends ActionController implements Administrator
             }
         }
         
-        $result = new ViewModel(array('form' => $form));
-        $result->setTerminal(true); // Don't display layout.
-        
-        return $result;
+        return new ViewModel(array('form' => $form));
     }
     
     /**

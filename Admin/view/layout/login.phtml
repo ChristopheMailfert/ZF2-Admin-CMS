@@ -1,0 +1,60 @@
+<?php echo $this->doctype() . PHP_EOL ?>
+<html lang="en">
+	<head>
+    	<meta charset="utf-8" />
+    	<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+        <?php echo $this->headTitle() . PHP_EOL ?>
+        <?php echo $this->headMeta() . PHP_EOL ?>
+        <?php echo $this->headScript()  ->appendFile($this->basePath() . '/js/jquery.js')
+                                        ->appendFile($this->basePath() . '/js/jquery.jtweetsanywhere-1.2.1.min.js')
+                                        ->appendFile($this->basePath() . '/js/bootstrap.min.js')
+                                        ->appendFile($this->basePath() . '/js/bootstrap.datepicker.js') . PHP_EOL ?>
+        <?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap.css')
+                                    ->appendStylesheet($this->basePath() . '/css/bootstrap.datepicker.css')
+                                    ->appendStylesheet($this->basePath() . '/css/admin.css') . PHP_EOL ?>
+		
+		<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    	<!--[if lt IE 9]>
+      		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    	<![endif]-->
+
+        <?php echo $this->placeholder('favicon') . PHP_EOL ?>
+        <script>
+      		$(document).ready(function(){
+        		// make datepicker displayable
+        		$('.date').datepicker();
+
+        		// toggle all plugin checkboxes
+        		$('table .toggle-all').on('click', function (e) {
+          			e.preventDefault();
+          			var inputsComponent = $(this).closest('table').find('input:checkbox');
+          			inputsComponent.attr('checked', !inputsComponent.is(':checked'));
+        		});
+      		});
+    	</script>
+  	</head>
+  	<body>
+    <!-- Main login -->
+    <div class="container">
+      <div class="row">
+        <div class="span6 offset3">
+          <div class="container-login">
+            <?php echo $this->content . PHP_EOL ?>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main footer -->
+    <div class="footer navbar-fixed-bottom">
+      <nav class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <h1 class="brand">Tea Garden</h1>
+            <p class="footer-login pull-right">&copy; Tea Garden 2012. Tous droits r&eacute;serv&eacute;s.</p>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </body>
+</html>
