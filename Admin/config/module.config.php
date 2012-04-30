@@ -33,6 +33,7 @@ return array(
                         'admin/login' => __DIR__ . '/../view/admin/login.phtml',
                         'admin/index' => __DIR__ . '/../view/admin/index.phtml',
                         'admin/breadcrumbs' => __DIR__ . '/../view/admin/breadcrumbs.phtml',
+                        'admin/menu' => __DIR__ . '/../view/admin/menu.phtml',
                     ),
                 ),
             ),
