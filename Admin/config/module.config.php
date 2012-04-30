@@ -32,6 +32,7 @@ return array(
                         'layout/admin/login' => __DIR__ . '/../view/layout/login.phtml',
                         'admin/login' => __DIR__ . '/../view/admin/login.phtml',
                         'admin/index' => __DIR__ . '/../view/admin/index.phtml',
+                        'admin/breadcrumbs' => __DIR__ . '/../view/admin/breadcrumbs.phtml',
                     ),
                 ),
             ),
@@ -76,7 +77,6 @@ return array(
                 'parameters' => array(
                     'map' => array(
                         'adminmenu' => 'Admin\View\Helper\Navigation\AdminMenu',
-            		'adminbreadcrumbs' => 'Admin\View\Helper\Navigation\AdminBreadcrumbs',
                     ),
                 ),
             ),

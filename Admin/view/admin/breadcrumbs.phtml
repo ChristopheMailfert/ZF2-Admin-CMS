@@ -1,0 +1,12 @@
+<ul class="breadcrumb">
+    <li>
+        <a href="<?php echo $this->url('admin'); ?>">Admin</a>
+    </li>
+    <span class="divider">/</span>
+<?php foreach($pages as $key => $page) : ?>
+    <li><a href="<?php echo $page->getHref(); ?>"><?php echo $page->getLabel(); ?></a>
+    <?php if($key < count($pages) - 1) : ?>
+        <span class="divider">/</span></li>
+    <?php endif; ?>
+<?php endforeach; ?>
+</ul>

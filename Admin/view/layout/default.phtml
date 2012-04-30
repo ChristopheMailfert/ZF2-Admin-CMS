@@ -128,7 +128,6 @@
         </div>
       </div>
 
-      <!-- Main menu -->
       <div class="header-bottom">
         <div class="navbar">
           <div class="navbar-inner">
@@ -143,20 +142,18 @@
       </div>
     </div>
 
-    <!-- Main content -->
     <div class="container">
       <div class="row">
         <div class="span12">
           <div class="container-body">
-			<?php echo $this->navigation()->adminbreadcrumbs() . PHP_EOL ?>
+			<?php echo $this->navigation()->breadcrumbs()->setMinDepth(0)->setPartial('admin/breadcrumbs')->render() . PHP_EOL ?>
             
             <?php echo $this->content . PHP_EOL ?>
-          </div> <!-- /container-body -->
-        </div> <!-- /span12 -->
-      </div> <!-- /row -->
-    </div> <!-- /container -->
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- Main footer -->
     <div class="footer">
       <div class="footer-twitter">
         <div class="container">
