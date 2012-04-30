@@ -150,9 +150,7 @@ class AdminRenderingStrategy implements ListenerAggregate
     {
         $locator = $this->getLocator();
         if (!$locator) {
-            throw new Exception\MissingLocatorException(
-                'Cannot render without a locator'
-            );
+            throw new Exception\MissingLocatorException('Cannot render without a locator');
         }
         
         $controllerName = $e->getRouteMatch()->getParam('controller');

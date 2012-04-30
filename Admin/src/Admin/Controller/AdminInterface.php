@@ -3,5 +3,4 @@ namespace Admin\Controller;
 
 interface AdminInterface
 {
-    
 }

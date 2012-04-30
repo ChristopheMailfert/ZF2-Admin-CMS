@@ -30,7 +30,7 @@ class AbstractController extends BaseController implements AdminInterface
     }
     
     /**
-     *
+     * Control authentication
      * @param MvcEvent $e
      * @return type 
      */
@@ -44,12 +44,11 @@ class AbstractController extends BaseController implements AdminInterface
         $auth = $this->getLocator()->get('Admin\Authentication\AuthenticationService');
         if(!$auth->hasIdentity()) {
             return $this->plugin('redirect')->toRoute('admin/login');
-            return $this->plugin('forward')->dispatch('Admin\Controller\AdminController', array('action' => 'login', 'controller' => 'Admin\Controller\AdminController'));
         }
     }
     
     /**
-     *
+     * Control ACL authorisation
      * @param MvcEvent $e
      * @return type 
      */
@@ -74,7 +73,6 @@ class AbstractController extends BaseController implements AdminInterface
         
         if (!$acl->isAllowed($role, $routeMatchName)) {
             return $this->plugin('redirect')->toRoute('login');
-            return $this->plugin('forward')->dispatch('Admin\Controller\AdminController', array('action' => 'login', 'controller' => 'Admin\Controller\AdminController'));
         }
     }
 }
