@@ -1,0 +1,32 @@
+<?php
+    $iterator = new RecursiveIteratorIterator($container,RecursiveIteratorIterator::SELF_FIRST);
+?>
+<?php 
+    $depth = $iterator->getDepth();
+    $prevDepth = $iterator->getDepth();
+?>
+<ul class="nav">
+    <?php foreach ($iterator as $key => $page) : ?>
+        <?php 
+            $depth = $iterator->getDepth();
+        ?>
+        <?php
+            $isActive = $page->isActive(true);
+        if($prevDepth < $iterator->getDepth()) : ?>
+            <ul class="dropdown-menu">
+        <?php elseif($prevDepth > $iterator->getDepth()) : ?>
+            </ul>
+        <?php endif; ?>
+        <?php if($key > 0) : ?>
+            </li>
+        <?php endif; ?>
+        <li class="<?php echo !$isActive ?: 'active'; ?>">
+            <?php echo $this->navigation()->menu()->htmlify($page), PHP_EOL; ?>
+        
+        <?php 
+            $prevDepth = $iterator->getDepth();
+        ?>
+    <?php endforeach; ?>
+    </ul>
+    </li>
+</ul>

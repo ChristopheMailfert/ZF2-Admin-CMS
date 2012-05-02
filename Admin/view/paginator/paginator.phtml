@@ -1,0 +1,24 @@
+<?php if ($this->pageCount < 2) return ?>
+<div class="pagination">
+	<ul>
+<?php
+    // Previous page
+    if ($this->previous): ?>
+        <li><a href="<?php echo $this->url . '?page=' . $this->previous ?>"> &lt; Previous </a></li>
+<?php endif;
+
+    // Numbered page links
+    foreach ($this->pagesInRange as $page):
+        if ($page == $this->current): ?>
+        <li class="active"><a href="#"><?php echo $page ?></a></li>
+        <?php else: ?>
+        <li><a href="<?php echo $this->url . '?page=' . $page ?>"><?php echo $page ?></a></li>
+        <?php endif ?>
+<?php endforeach;
+
+    // Next page link
+    if ($this->next): ?>
+        <li><a href="<?php echo $this->url . '?page=' . $this->next ?>"> Next &gt;</a></li>
+<?php endif; ?>
+	</ul>
+</div>

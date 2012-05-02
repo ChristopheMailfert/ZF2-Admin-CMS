@@ -1,0 +1,44 @@
+<form action="<?php echo $this->url('admin/login', array()); ?>" method="post" class="form-horizontal">
+  <fieldset>
+    <legend>Login to Tea Garden <small class="pull-right"><a href="#password-forgotten" data-toggle="modal">Password forgotten?</a></small></legend>
+
+    <?php if($this->form->getErrorMessages()): ?>
+    <div class="alert alert-error">
+        <?php foreach ($this->form->getErrorMessages() as $message): ?>
+            <?php echo $message; ?>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="control-group <?php echo ($this->form->getErrors('username')) ? 'error' : ''  ?>">
+      <label class="control-label" for="username">Username</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" name="username" id="username" placeholder="Username or email" />
+        <p class="help-block">Enter your username or you email address</p>
+      </div>
+    </div>
+
+    <div class="control-group <?php echo ($this->form->getErrors('password')) ? 'error' : ''  ?>">
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" name="password" id="password" placeholder="Password" />
+        <p class="help-block">Enter your password in case sensitive</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        <label for="remember-me" class="checkbox">
+          <input type="checkbox" id="remember-me" value="1" checked="checked" />
+          Remember me
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Log me in</button>
+      <a href="#" class="btn">Go back to the website</a>
+    </div>
+  </fieldset>
+  <?php echo $this->formCsrf();?>
+</form>

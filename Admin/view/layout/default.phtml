@@ -1,0 +1,209 @@
+<?php echo $this->doctype() . PHP_EOL ?>
+<html lang="en">
+  <head>
+   	<meta charset="utf-8">
+    <?php echo $this->headTitle() . PHP_EOL ?>
+    <?php echo $this->headMeta() . PHP_EOL ?>
+    <?php echo $this->headScript()  ->appendFile($this->basePath() . '/js/jquery.js')
+                                    ->appendFile($this->basePath() . '/js/jquery.jtweetsanywhere-1.2.1.min.js')
+                                    ->appendFile($this->basePath() . '/js/bootstrap.min.js')
+                                    ->appendFile($this->basePath() . '/js/bootstrap.datepicker.js') . PHP_EOL ?>
+    <?php echo $this->headLink()->appendStylesheet($this->basePath() . '/css/bootstrap.css')
+                                ->appendStylesheet($this->basePath() . '/css/bootstrap.datepicker.css')
+                                ->appendStylesheet($this->basePath() . '/css/admin.css') . PHP_EOL ?>
+		
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <?php echo $this->placeholder('favicon') . PHP_EOL ?>
+    
+    <script>
+      $(document).ready(function(){
+        // make datepicker displayable
+        $('.date').datepicker();
+
+        // toggle all plugin checkboxes
+        $('table .toggle-all').on('click', function (e) {
+          e.preventDefault();
+          var inputsComponent = $(this).closest('table').find('input:checkbox');
+    	  inputsComponent.attr('checked', !inputsComponent.is(':checked'));
+    	});
+      });
+    </script>
+  </head>
+  <body>
+    <!-- Main header -->
+    <div class="header">
+      <!-- Admin main menu -->
+      <div class="header-top">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="container">
+              <h1 class="brand">Tea Garden</h1>
+              <ul class="nav pull-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-white icon-envelope"></i> My messages <span class="badge badge-notifs">3</span></a>
+                  <ul class="dropdown-menu">
+                    <li class="unread">
+                      <a href="user-mess-single.php#last">
+                        <span class="title">From Achraf Chouk</span>
+                        <span class="desc">Nemo enim ipsam voluptatem quia...</span>
+                        <span class="time">1 hour ago</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="user-mess-single.php#last">
+                        <span class="title">From Nicolas Assing</span>
+                        <span class="desc">Nemo enim ipsam voluptatem quia...</span>
+                        <span class="time">2 hours ago</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="user-mess-single.php#last">
+                        <span class="title">From Christophe Mailfert</span>
+                        <span class="desc">Nemo enim ipsam voluptatem quia...</span>
+                        <span class="time">3 hours ago</span>
+                      </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="user-mess-all.php">View all my messages</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-white icon-comment"></i> My notifications <span class="badge badge-notifs">5</span></a>
+                  <ul class="dropdown-menu">
+                    <li class="unread">
+                      <a href="#">
+                        <span class="title">crewstyle has created a new post</span>
+                        <span class="time">1 hour ago</span>
+                      </a>
+                    </li>
+                    <li class="unread">
+                      <a href="#">
+                        <span class="title">Zouriteman is now logged</span>
+                        <span class="time">2 hours ago</span>
+                      </a>
+                    </li>
+                    <li class="unread">
+                      <a href="#">
+                        <span class="title">Achraf Chouk has bought a new product</span>
+                        <span class="time">3 hours ago</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="title">Anis Chouk a rot&eacute; ...</span>
+                        <span class="time">4 hours and 43 minutes ago</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="title">Cyrine Chouk has called to the TEA office</span>
+                        <span class="time">Yesterday</span>
+                      </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="user-notifications.php">View all my notifications</a></li>
+                  </ul>
+                </li>
+                <li class="divider-vertical"></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-white icon-user"></i> <?php echo $this->auth()->username; ?> <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="user-edit.php">
+                        <img src="http://dummyimage.com/40x40/fff/000&text=A" alt="" class="avatar" />
+                        <span class="user-details"><?php echo $this->auth()->email; ?><br/>View my profile</span>
+                      </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo $this->url('admin/logout', array()); ?>">Log me out</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-bottom">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="container">
+              <?php echo $this->navigation()->adminmenu() . PHP_EOL ?>
+              <form action="search.php" method="post" class="navbar-search pull-right">
+                <input type="text" class="search-query span2" placeholder="Search" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <div class="container-body">
+			<?php echo $this->navigation()->breadcrumbs()->setMinDepth(0)->setPartial('admin/breadcrumbs')->render() . PHP_EOL ?>
+            
+            <?php echo $this->content . PHP_EOL ?>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-twitter">
+        <div class="container">
+          <div><i class="icon-map-marker"></i> You are using the last version of Tea Garden v1.0</div>
+        </div>
+      </div>
+
+      <div class="footer-top">
+        <div class="container">
+          <div class="row">
+            <div class="span3">
+              <ul class="nav nav-list">
+                <li class="nav-header">Cat&eacute;gorie de liens 1</li>
+                <li><a href="#">Lien 1</a> Symfony' PHP framework engineer</li>
+                <li><a href="#">Lien 2</a></li>
+                <li><a href="#">Lien 3</a></li>
+                <li><a href="#">Lien 4</a></li>
+              </ul>
+            </div>
+            <div class="span3">
+              <ul class="nav nav-list">
+                <li class="nav-header">Cat&eacute;gorie de liens 2</li>
+                <li><a href="#">Lien 1</a></li>
+                <li><a href="#">Lien 2</a></li>
+                <li><a href="#">Lien 3</a></li>
+              </ul>
+            </div>
+            <div class="span3">
+              <ul class="nav nav-list">
+                <li class="nav-header">Cat&eacute;gorie de liens 3</li>
+                <li><a href="#">Lien 1</a></li>
+              </ul>
+            </div>
+            <div class="span3">
+              <ul class="nav nav-list">
+                <li class="nav-header">Cat&eacute;gorie de liens 4</li>
+                <li><a href="#">Lien 1</a></li>
+                <li><a href="#">Lien 2</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="container">
+          <a href="#" class="pull-right">Back to the website <i class="icon-chevron-right"></i></a>
+          <p>&copy; Tea Garden 2012. Tous droits r&eacute;serv&eacute;s.</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
